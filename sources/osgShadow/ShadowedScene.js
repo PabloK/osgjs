@@ -74,6 +74,7 @@ ShadowedScene.prototype = MACROUTILS.objectLibraryClass( MACROUTILS.objectInheri
                 this._shadowTechniques.splice( idx, 1 );
             }
         }
+
     },
     /** Clean scene graph from any shadow technique specific nodes, state and drawables.*/
     cleanSceneGraph: function () {

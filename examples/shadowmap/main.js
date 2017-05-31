@@ -474,7 +474,7 @@
 
             if ( this._lights.length !== numLights ) {
 
-                var lightScale = 1.0 / ( numLights + 4 );
+                var lightScale = 0.45 / ( numLights + 4 );
 
                 var group = this._viewer.getSceneData();
 
@@ -1030,7 +1030,7 @@
             this._config.camera = this._viewer.getCamera();
 
             var numLights = this._config.lightNum;
-            var lightScale = 1.0 / numLights - 1e-4;
+            var lightScale = 0.45 / numLights - 1e-4;
 
             var k;
             if ( this._config.atlas ) {

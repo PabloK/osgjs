@@ -34,6 +34,7 @@ var Camera = function () {
     this._view = undefined;
     this._renderer = undefined;
     this._attachments = {};
+
 };
 
 Camera.PRE_RENDER = 0;
@@ -94,7 +95,6 @@ Camera.prototype = MACROUTILS.objectLibraryClass( MACROUTILS.objectInherit(
             return this._initialDrawCallback;
 
         },
-
 
         getAttachments: function () {
             return this._attachments;
@@ -169,7 +169,12 @@ Camera.prototype = MACROUTILS.objectLibraryClass( MACROUTILS.objectInherit(
             this.renderOrder = order;
             this.renderOrderNum = orderNum;
         },
-
+        getFrameBufferObject: function () {
+            return this.frameBufferObject;
+        },
+        setFrameBufferObject: function ( fbo ) {
+            this.frameBufferObject = fbo;
+        },
         detachAll: function () {
             this._attachments = {};
 

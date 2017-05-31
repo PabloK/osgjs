@@ -391,7 +391,7 @@ ShadowMap.prototype = MACROUTILS.objectLibraryClass( MACROUTILS.objectInherit( S
         return true;
     },
 
-    updateShadowTechnique: function ( nv, viewportDimension ) {
+    updateShadowTechnique: function ( nv, viewportDimension, frameBufferObject ) {
 
         var camera = this._cameraShadow;
         var texture = this._texture;
@@ -406,33 +406,28 @@ ShadowMap.prototype = MACROUTILS.objectLibraryClass( MACROUTILS.objectInherit( S
             }
 
             if ( viewportDimension ) {
+
                 // if texture size changed update the camera rtt params
                 if ( vp.x() !== viewportDimension[ 0 ] ||
                     vp.y() !== viewportDimension[ 1 ] ||
                     vp.width() !== viewportDimension[ 2 ] ||
                     vp.height() !== viewportDimension[ 3 ] ) {
 
-                    camera.detachAll();
-
-                    camera.attachTexture( FrameBufferObject.COLOR_ATTACHMENT0, texture );
-                    camera.attachRenderBuffer( FrameBufferObject.DEPTH_ATTACHMENT, FrameBufferObject.DEPTH_COMPONENT16 );
-
-                    camera.getViewport().setViewport( viewportDimension[ 0 ], viewportDimension[ 1 ], viewportDimension[ 2 ], viewportDimension[ 3 ] );
+                    camera.setFrameBufferObject( frameBufferObject );
+                    vp.setViewport( viewportDimension[ 0 ], viewportDimension[ 1 ], viewportDimension[ 2 ], viewportDimension[ 3 ] );
                 }
 
-            } else {
+            } else if ( vp.width() !== texture.getWidth() ||
+                vp.height() !== texture.getHeight() ) {
+
                 // if texture size changed update the camera rtt params
-                if ( vp.width() !== texture.getWidth() ||
-                    vp.height() !== texture.getHeight() ) {
+                camera.detachAll();
+                camera.attachTexture( FrameBufferObject.COLOR_ATTACHMENT0, texture );
+                camera.attachRenderBuffer( FrameBufferObject.DEPTH_ATTACHMENT, FrameBufferObject.DEPTH_COMPONENT16 );
+                vp.setViewport( 0, 0, texture.getWidth(), texture.getHeight() );
 
-                    camera.detachAll();
-
-                    camera.attachTexture( FrameBufferObject.COLOR_ATTACHMENT0, texture );
-                    camera.attachRenderBuffer( FrameBufferObject.DEPTH_ATTACHMENT, FrameBufferObject.DEPTH_COMPONENT16 );
-
-                    camera.getViewport().setViewport( 0, 0, texture.getWidth(), texture.getHeight() );
-                }
             }
+
         }
     },
 
